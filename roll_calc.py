@@ -4,18 +4,25 @@ Created on Thu Nov 11 21:30:18 2021
 
 @author: jasmi
 """
+import replit
+replit.clear()
+
+import os
+os.system('clear')
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import weather
-
-import re
+#import re
+import warnings
+warnings.filterwarnings('ignore')
 
 '''User Input '''
 # 'CFC8' - Flamboro Centre
 # 'CYHM' - Hamilton
 airport = 'CFC8'
+turf = 'soft'
 
 
 taf = '''TAF AMD CYHM 120831Z 1208/1306 26012G22KT P6SM BKN040 BKN080 TEMPO
@@ -69,7 +76,7 @@ def _airport(name):
 #aerodome	ground_elevation_ft	variation	var_dir	Description	RwyType	Rwys	Displacement	RwyLength
 aerodome_values = _airport(airport)
 ground_elevation = int(aerodome_values[1])
-turf = aerodome_values[4]
+#turf = aerodome_values[4]
 rwys = aerodome_values[0]
 rwy_len = aerodome_values[-1]
 rwy_disp = aerodome_values[-2]
@@ -169,6 +176,7 @@ class Calculations50:
 #gust = 20
 #ground_elevation = 813
 #variation = 10
+
 
 rwy = np.zeros(len(rwys.split()))
 i = 0
@@ -275,5 +283,5 @@ Land50_Calculation = round(Land50_Calculation.turf_factor(), 0)
 print("TO Ground Roll: {0} \nTO 50': {1} ".format(TO_Calculation50, TO50_Calculation)) 
 print("Landing Ground Roll: {0} \nLanding 50': {1} ".format(Land_Calculation50, Land50_Calculation)) 
 
-
+print("\n ------------ End of Report ------------- \n")
 
