@@ -22,7 +22,8 @@ warnings.filterwarnings('ignore')
 #airport = 'CYHM'
 airport = input('Airport (CYHM, CFC8):')
 airport = airport.strip()
-turf = 'soft'
+turf = input('Turf (soft, asphalt):')
+turf = turf.strip()
 print()
 
 taf = '''TAF AMD CYHM 120831Z 1208/1306 26012G22KT P6SM BKN040 BKN080 TEMPO
