@@ -19,11 +19,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 '''User Input '''
-# 'CFC8' - Flamboro Centre
-# 'CYHM' - Hamilton
-airport = 'CFC8'
+#airport = 'CYHM'
+airport = input('Airport (CYHM, CFC8):')
 turf = 'soft'
-
+print()
 
 taf = '''TAF AMD CYHM 120831Z 1208/1306 26012G22KT P6SM BKN040 BKN080 TEMPO
 1208/1210 5SM BR BKN008 OVC012 PROB30 1208/1210 2SM -DZ BR
