@@ -21,6 +21,7 @@ warnings.filterwarnings('ignore')
 '''User Input '''
 #airport = 'CYHM'
 airport = input('Airport (CYHM, CFC8):')
+airport = airport.strip()
 turf = 'soft'
 print()
 
