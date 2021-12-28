@@ -11,7 +11,7 @@ from datetime import date
 import numpy as np
 
 def convert(hour, minute, am):
-    if am == 'PM':
+    if am == 0:
         hour = hour + 12
         minute = minute + 12
     return hour, minute
@@ -23,22 +23,51 @@ def time_input():
     zulu = 5
             
     start_hour = int(input("Start Hour: ")) 
+    validGuess = False
+    while validGuess is False:
+        if start_hour > 24 or start_hour < 0:
+            start_hour = int(input("Out of Range! Start Hour: ")) 
+        else:
+            validGuess = True
+
     start_min = int(input("Start Minute: "))
-    start_am = int(input("AM? If yes, type 1, else 0: "))
+    validGuessMinute = False
+    while validGuessMinute is False:
+        if start_min > 60 or start_min < 0:
+            start_min = int(input("Out of Range! Start Minute: "))
+        else:
+            validGuessMinute = True
+            
+    #start_am = int(input("AM? If yes, type 1, else 0: "))
     
     end_hour = int(input("End Hour: ")) 
-    end_min = int(input("End Minute: "))
-    end_am = int(input("AM? If yes, type 1, else 0: "))
+    validGuessEndHour = False
+    while validGuess is False:
+        if end_hour > 24 or end_hour < 0:
+            end_hour = int(input("Out of Range! End Hour: ")) 
+        else:
+            validGuessEndHour = True    
     
-    starttime = convert(start_hour, start_min, start_am)
-    startH = starttime[0] + zulu
-    startM = starttime[1]
-    endtime = convert(end_hour, end_min, end_am)
-    endH = endtime[0] + zulu
-    endM = endtime[1]
+    end_min = int(input("End Minute: "))
+    validGuessEndMinute = False
+    while validGuessMinute is False:
+        if end_min > 60 or end_min < 0:
+            end_min = int(input("Out of Range! Start Minute: "))
+        else:
+            validGuessEndMinute = True    
+    
+    #end_am = int(input("AM? If yes, type 1, else 0: "))
+    
+    #starttime = convert(start_hour, start_min, start_am)
+    startH = start_hour + zulu
+    startM = start_min
+    #endtime = convert(end_hour, end_min, end_am)
+    endH = end_hour + zulu
+    endM = end_min
     
     print("----------------------------------")
     start = datetime.time(startH, startM, 0, 0)
+    print(startH, startM)
     print("start =", start)
     
     end = datetime.time(endH, endM, 0, 0)
@@ -118,12 +147,14 @@ def knots_KT(df):
 def temperature(df):
     temp = [(m.start(0), m.end(0)) for m in re.finditer("/", df)]
     temperature = (df[temp[0][0] - 3 : temp[0][0] ])
+    
     if 'M' in temperature:
         temperature =  temperature.replace('M', '')
         temperature = -1*int(temperature)
     else:
         temperature = int(temperature)
-    dewpoint = (df[temp[0][1] :temp[0][1] +2 ])
+    dewpoint = (df[temp[0][1] :temp[0][1] +3 ])
+    #print(dewpoint)
     if 'M' in dewpoint:
         dewpoint =  dewpoint.replace('M', '')
         dewpoint = -1*int(dewpoint)
@@ -163,8 +194,17 @@ def wind_comps(datafr, temperature, PA, HWC, XWC, factor):
             
     dataframe = datafr[[ 'PA__', min_val, max_val]]
     #print(dataframe)
-    min_PA = int(round(PA-500, -2))
-    max_PA = int(round(PA+500, -2))
+    if int(round(PA-500, -2)) == 0:
+        min_PA = int(round(PA-500, -2))
+    else:
+        min_PA = int(round(PA-500, -3))
+    
+    if int(round(PA+500, -2)) == 0:
+        max_PA = int(round(PA+500, -2))
+    else:
+        max_PA = int(round(PA+500, -3))
+    
+    
     #print(min_PA, max_PA, PA)
     frame = dataframe.query('PA__ >= @min_PA and PA__ <= @max_PA')
     #print(frame)
@@ -182,3 +222,30 @@ def wind_comps(datafr, temperature, PA, HWC, XWC, factor):
     
     #print(ground_roll, soft_field, wind_correction, soft_wind_correction)
     return ground_roll, soft_field, wind_correction, soft_wind_correction 
+
+def cloudBase(temperature, dewpoint, scale='C'):
+    if scale == 'C':
+        temperature_f = (temperature*(9/5)) + 32.
+        dewpoint_f = (dewpoint*(9/5)) + 32.
+    elif scale == 'F':
+        temperature_f = temperature
+        dewpoint_f = dewpoint
+    spread = temperature_f - dewpoint_f
+    spread = spread/4.4
+    spread = round(spread * 1000, 0)
+    print("Cloud Base: ", spread," AGL")
+    return spread
+
+def tolist(string):
+    lst = []
+    string = string.replace("[", "")
+    string = string.replace("]", "")
+    string = string.replace(" ", "")
+    string = string.split(",")
+    for i in string:
+        i = int(i)
+        lst.append(i)
+    #print(string)
+    return lst
+    
+        
