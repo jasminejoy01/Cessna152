@@ -1,0 +1,4 @@
+aerodome	ground_elevation_ft	variation	var_dir	Description	RwyType	Rwys	Displacement	RwyLength
+CZBA	603	9.94	W	Burlington Executive	asphalt	[32, 14, 27, 09]	[409, 181, 254, 328]	[3950, 3950, 2464, 2464]
+CFC8	813	9.87	W	Flamboro Centre	turf	[33, 15]	[0, 0]	[2394, 2394]
+CYHM	780	9.83	W	Hamilton	asphalt	[32, 14, 27, 09]	[409, 181, 254, 328]	[3950, 3950, 2464, 2464]
